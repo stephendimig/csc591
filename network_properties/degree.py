@@ -125,5 +125,5 @@ if __name__ == '__main__':
 			print("Writing distribution to file " + gx + ".csv")
 			distrib.toPandas().to_csv(gx + ".csv")
 
-			distrib.select('count').map(lambda x: x).collect()
+			print distrib.select('count').collect()
 			fit = powerlaw.Fit(distrib['count'])
