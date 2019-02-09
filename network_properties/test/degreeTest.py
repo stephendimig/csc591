@@ -22,6 +22,12 @@ import unittest
 # Description:
 #
 class degreeTest(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.sc = SparkContext("local", "degreeTest.py")
+        cls.sqlContext = SQLContext(sc)
+
     #
     # Name: test
     # Description:
@@ -34,17 +40,13 @@ class degreeTest(unittest.TestCase):
     #
     def test_readFile(self):
         filename = "test.csv"
-        sc = SparkContext("local", "degreeTest.py")
-        sqlContext = SQLContext(sc)
-        g = deg.readFile(filename, False, sc, sqlContext)
+        g = deg.readFile(filename, False, degreeTest.sc, degreeTest.sqlContext)
         self.assertEquals(g.edges.count(), 1000)
 
 
     def test_simple(self):
         filename = "test.csv"
-        sc = SparkContext("local", "degreeTest.py")
-        sqlContext = SQLContext(sc)
-        g = deg.readFile(filename, False, sc, sqlContext)
+        g = deg.readFile(filename, False, degreeTest.sc, degreeTest.sqlContext)
         self.assertEquals(g.edges.count(), 1000)
         simple_g = deg.simple(g)
 
