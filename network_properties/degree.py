@@ -11,13 +11,20 @@ from tabulate import tabulate
 def simple(g):
 	# Extract edges and make a data frame of "flipped" edges
 	# YOUR CODE HERE
+	eschema = StructType([StructField("src", IntegerType()), StructField("dst", IntegerType())])
+	flipped = sc.parallelize(g.edges).map(lambda x: (x[1], x[0]))
+	flipped_df = sqlContext.createDataFrame(flipped, eschema)
 
 	# Combine old and new edges. Distinctify to eliminate multi-edges
 	# Filter to eliminate self-loops.
 	# A multigraph with loops will be closured to a simple graph
 	# If we try to undirect an undirected graph, no harm done
 	# YOUR CODE HERE
-	pass
+	combined = flipped_df.union(g.edges)
+
+	simple_g = GraphFrame(g.vertices, flipped_df)
+	return simple_g
+
 
 
 # Return a data frame of the degree distribution of each edge in the provided graphframe
@@ -50,7 +57,6 @@ def readFile(filename, large, sc, sqlContext):
 
 	e = lines.filter(lambda line: line.split(delim)[0].isdigit() and line.split(delim)[1].isdigit()).map(lambda line: (int(line.split(delim)[0]), int(line.split(delim)[1])))
 	edf = sqlContext.createDataFrame(e, eschema)
-	edf.show()
 
 	# Extract all endpoints from input file (hence flatmap) and create
 	# data frame containing all those node names in schema matching

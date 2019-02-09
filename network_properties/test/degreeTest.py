@@ -40,6 +40,13 @@ class degreeTest(unittest.TestCase):
         self.assertEquals(g.edges.count(), 1000)
 
 
+    def test_simple(self):
+        filename = "test.csv"
+        sc = SparkContext("local", "degreeTest.py")
+        sqlContext = SQLContext(sc)
+        g = deg.readFile(filename, False, sc, sqlContext)
+        self.assertEquals(g.edges.count(), 1000)
+        simple_g = deg.simple(g)
 
 if __name__ == '__main__':
     unittest.main()
