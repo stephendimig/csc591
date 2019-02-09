@@ -21,7 +21,7 @@ def simple(g, sc, sqlContext):
 	# YOUR CODE HERE
 	combined = flipped.union(g.edges.rdd).distinct()
 	flipped_df = sqlContext.createDataFrame(combined, eschema)
-	flipped_df.orderBy(['src', 'dest']).show(2000)
+	flipped_df.orderBy(['src', 'dst']).show(2000)
 
 	simple_g = GraphFrame(g.vertices, flipped_df)
 	return simple_g
