@@ -47,7 +47,7 @@ def readFile(filename, large, sc, sqlContext):
 	# Extract pairs from input file and convert to data frame matching
 	# schema for graphframe edges.
 	# YOUR CODE HERE
-	edf = sqlContext.createDataFrame(lines.map(lambda line: (line.split(delim)[0], line.split(delim)[1])), eschema)
+	edf = sqlContext.createDataFrame(pd.DataFrame(lines.map(lambda line: (line.split(delim)[0], line.split(delim)[1]))), eschema)
 	edf.show()
 
 	# Extract all endpoints from input file (hence flatmap) and create
