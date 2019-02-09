@@ -47,6 +47,8 @@ def readFile(filename, large, sc, sqlContext):
 	# Extract pairs from input file and convert to data frame matching
 	# schema for graphframe edges.
 	# YOUR CODE HERE
+
+	print(lines.map(lambda line: (line.split(delim)[0], line.split(delim)[1])).collect())
 	edf = sqlContext.createDataFrame(lines.map(lambda line: (line.split(delim)[0], line.split(delim)[1])), eschema)
 	edf.show()
 
