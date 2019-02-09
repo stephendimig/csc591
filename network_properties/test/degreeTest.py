@@ -37,8 +37,8 @@ class degreeTest(unittest.TestCase):
         sc = SparkContext("local", "degreeTest.py")
         sqlContext = SQLContext(sc)
         g = deg.readFile(filename, False, sc, sqlContext)
-        self.assertEqual(len(g.edges), 1000)
-        self.assertEqual(len(g.vertices), 1000)
+        self.assertEqual(g.edges.shape[0], 1000)
+        self.assertEqual(g.vertices.shape[0], 1000)
 
 
 
