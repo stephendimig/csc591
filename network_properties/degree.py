@@ -56,7 +56,10 @@ def readFile(filename, large, sc, sqlContext):
 	# data frame containing all those node names in schema matching
 	# graphframe vertices
 	# YOUR CODE HERE
-	v  = lines.filter(lambda line: line.split(delim)[0].isdigit() and line.split(delim)[1].isdigit()).flatMap(lambda line: line.split(delim)).map(lambda x: int(x)).distinct().map(lambda x: (x))
+	v  = lines.filter(lambda line: line.split(delim)[0].isdigit() and line.split(delim)[1].isdigit()).\
+		flatMap(lambda line: line.split(delim)).\
+		map(lambda x: (int(x))).distinct()
+	print(v.collect())
 	vdf = sqlContext.createDataFrame(v, vschema)
 	vdf.show()
 
