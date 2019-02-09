@@ -127,3 +127,5 @@ if __name__ == '__main__':
 
 			print [row['count'] for row in distrib.collect()]
 			fit = powerlaw.Fit([row['count'] for row in distrib.collect()])
+			print "alpha={}".format(fit.power_law.alpha)
+			print "sigma={}".format(fit.power_law.sigma)
