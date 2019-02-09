@@ -21,7 +21,7 @@ import unittest
 # Class:
 # Description:
 #
-class degreeTest(PySparkTest):
+class degreeTest(unittest.TestCase):
     #
     # Name: test
     # Description:
