@@ -34,7 +34,7 @@ class degreeTest(unittest.TestCase):
     def test_readFile(self):
         findspark.init()
         filename = "9_11_edgelist.txt"
-        sc = SparkContext("local", "degree.py")
+        sc = SparkContext("local")
         sqlContext = SQLContext(sc)
 
         deg.readFile(filename, False, sc, sqlContext=sqlContext)
