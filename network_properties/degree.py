@@ -52,6 +52,8 @@ def readFile(filename, large, sc, sqlContext):
 	else:
 		delim=","
 
+	delim = r'[\s+]|[,]'
+
 	# Extract pairs from input file and convert to data frame matching
 	# schema for graphframe edges.
 	# YOUR CODE HERE
