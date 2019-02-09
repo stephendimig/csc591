@@ -42,15 +42,13 @@ def readFile(filename, large, sc, sqlContext):
 		delim=","
 
 	print(lines.collect())
+
 	# Extract pairs from input file and convert to data frame matching
 	# schema for graphframe edges.
 	# YOUR CODE HERE
-	df = pd.DataFrame(columns=['src', 'dst', 'relationship'])
-	for line in lines:
-		pair = line.split(delim)
-		if len(pair) == 2:
-			df.loc[len(df.index)] = [pair[0], pair[1], '']
-
+	df = pd.DataFrame(lines.map(lambda line: (line.split(delim)[0], line.split(delim)[1], '')).collect())
+	df.columns = ["src", "dst", "rel_type"]
+	
 	print(tabulate(df, headers=df.columns.values.tolist(), showindex=False, tablefmt='psql'))
 
 	# Extract all endpoints from input file (hence flatmap) and create
