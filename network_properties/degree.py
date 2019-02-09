@@ -6,6 +6,7 @@ from pyspark.sql import SQLContext
 from pyspark.sql.types import *
 from graphframes import *
 from tabulate import tabulate
+import powerlaw
 
 # return the simple closure of the graph as a graphframe.
 def simple(g, sc, sqlContext):
@@ -123,3 +124,5 @@ if __name__ == '__main__':
 			distrib = degreedist(g)
 			print("Writing distribution to file " + gx + ".csv")
 			distrib.toPandas().to_csv(gx + ".csv")
+
+			fit = powerlaw.Fit(distrib['count'])
