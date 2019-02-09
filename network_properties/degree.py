@@ -68,7 +68,7 @@ def readFile(filename, large, sc, sqlContext):
 		map(lambda x: int(x)).\
 		distinct().\
 		map(lambda x: (x, ))
-	print v.collect()
+
 	vdf = sqlContext.createDataFrame(v, vschema)
 
 	# Create graphframe g from the vertices and edges.
