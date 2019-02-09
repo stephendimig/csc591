@@ -33,7 +33,7 @@ class degreeTest(unittest.TestCase):
     # None
     #
     def test_readFile(self):
-        filename = "../amazon.graph.small.csv"
+        filename = "../9_11_edgelist.txt"
         sc = SparkContext("local", "degreeTest.py")
         sqlContext = SQLContext(sc)
 
