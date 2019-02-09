@@ -126,4 +126,4 @@ if __name__ == '__main__':
 			distrib.toPandas().to_csv(gx + ".csv")
 
 			print [row['count'] for row in distrib.collect()]
-			fit = powerlaw.Fit([int(row.count) for row in distrib.select('count').collect()])
+			fit = powerlaw.Fit([row['count'] for row in distrib.collect()])
