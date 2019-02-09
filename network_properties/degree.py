@@ -32,6 +32,9 @@ def degreedist(g):
 # a header row and that delim = " ", otherwise no header and
 # delim = ","
 def readFile(filename, large, sc, sqlContext):
+	vschema = StructType([StructField("id", IntegerType())])
+	eschema = StructType([StructField("src", IntegerType()), StructField("dst", IntegerType())])
+
 	lines = sc.textFile(filename)
 	g = None
 	if large:
@@ -41,16 +44,12 @@ def readFile(filename, large, sc, sqlContext):
 	else:
 		delim=","
 
-	print(lines.collect())
-
 	# Extract pairs from input file and convert to data frame matching
 	# schema for graphframe edges.
 	# YOUR CODE HERE
-	df = pd.DataFrame(lines.map(lambda line: (line.split(delim)[0], line.split(delim)[1], '')).collect())
-	df.columns = ["src", "dst", "rel_type"]
-
-	print(tabulate(df, headers=df.columns.values.tolist(), showindex=False, tablefmt='psql'))
-
+	edf = sqlContext.createDataFrame(sc.parallelize(lambda line: (line.split(delim)[0], line.split(delim)[1]), eschema))
+	edf.show()
+	
 	# Extract all endpoints from input file (hence flatmap) and create
 	# data frame containing all those node names in schema matching
 	# graphframe vertices
