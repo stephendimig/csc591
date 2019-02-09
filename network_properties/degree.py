@@ -31,7 +31,6 @@ def degreedist(g):
 	# Generate a DF with degree,count
     # YOUR CODE HERE
 	retval = g.degrees.groupBy(['degree']).count()
-	retval.show()
 	return retval
 
 
@@ -92,7 +91,7 @@ if __name__ == '__main__':
 
 		print("Original graph has " + str(g.edges.count()) + " directed edges and " + str(g.vertices.count()) + " vertices.")
 
-		g2 = simple(g)
+		g2 = simple(g, sc, sqlContext)
 		print("Simple graph has " + str(g2.edges.count()/2) + " undirected edges.")
 
 		distrib = degreedist(g2)
@@ -120,7 +119,7 @@ if __name__ == '__main__':
 			print("Processing graph " + gx)
 			v = sqlContext.createDataFrame(sc.parallelize(todo[gx].nodes()), vschema)
 			e = sqlContext.createDataFrame(sc.parallelize(todo[gx].edges()), eschema)
-			g = simple(GraphFrame(v,e))
+			g = simple(GraphFrame(v,e), sc, sqlContext)
 			distrib = degreedist(g)
 			print("Writing distribution to file " + gx + ".csv")
 			distrib.toPandas().to_csv(gx + ".csv")
