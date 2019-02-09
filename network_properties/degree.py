@@ -6,7 +6,7 @@ from pyspark.sql import SQLContext
 from pyspark.sql.types import *
 from graphframes import *
 from tabulate import tabulate
-import powerlaw
+from plfit import plfit
 
 # return the simple closure of the graph as a graphframe.
 def simple(g, sc, sqlContext):
@@ -126,8 +126,6 @@ if __name__ == '__main__':
 			distrib.toPandas().to_csv(gx + ".csv")
 
 			print [row['count'] for row in distrib.collect()]
-			fit = powerlaw.Fit([row['count'] for row in distrib.collect()])
-			print "alpha={}".format(fit.power_law.alpha)
-			print "sigma={}".format(fit.power_law.sigma)
-			print "in_range={}".format(fit.in_range())
+			fit = plfit([row['count'] for row in distrib.collect()])
+			print fit.test_pl()
 
