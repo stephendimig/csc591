@@ -90,10 +90,10 @@ if __name__ == '__main__':
 		print("Processing input file " + filename)
 		g = readFile(filename, large, sc, sqlContext)
 
-		print("Original graph has " + str(g.edges.count()) + " directed edges and " + str(g.vertices.count()) + " vertices.")
+		#print("Original graph has " + str(g.edges.count()) + " directed edges and " + str(g.vertices.count()) + " vertices.")
 
 		g2 = simple(g, sc, sqlContext)
-		print("Simple graph has " + str(g2.edges.count()/2) + " undirected edges.")
+		#print("Simple graph has " + str(g2.edges.count()/2) + " undirected edges.")
 
 		distrib = degreedist(g2)
 		distrib.show()
