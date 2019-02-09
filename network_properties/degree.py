@@ -48,8 +48,8 @@ def readFile(filename, large, sc, sqlContext):
 	# schema for graphframe edges.
 	# YOUR CODE HERE
 
-	print(lines.map(lambda line: (line.split(delim)[0], line.split(delim)[1])).collect())
-	edf = sqlContext.createDataFrame(lines.map(lambda line: (line.split(delim)[0], line.split(delim)[1])), eschema)
+	e = lines.map(lambda line: (line.split(int(delim)[0]), int(line.split(delim)[1])))
+	edf = sqlContext.createDataFrame(e, eschema)
 	edf.show()
 
 	# Extract all endpoints from input file (hence flatmap) and create
