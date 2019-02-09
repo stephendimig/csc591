@@ -49,6 +49,7 @@ class degreeTest(unittest.TestCase):
         g = deg.readFile(filename, False, degreeTest.sc, degreeTest.sqlContext)
         self.assertEquals(g.edges.count(), 1000)
         simple_g = deg.simple(g, degreeTest.sc, degreeTest.sqlContext)
+        print(simple_g.edges.count())
 
 if __name__ == '__main__':
     unittest.main()
