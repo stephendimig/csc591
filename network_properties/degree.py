@@ -116,8 +116,10 @@ if __name__ == '__main__':
 			print(todo[gx].nodes())
 			print(todo[gx].edges())
 			v = sqlContext.createDataFrame(sc.parallelize(todo[gx].nodes()), vschema)
-			e = sqlContext.createDataFrame(sc.parallelize(todo[gx].edges()), eschema)
 			v.toPandas().to_csv("nodes.csv", index=False)
+
+			e = sqlContext.createDataFrame(sc.parallelize(todo[gx].edges()), eschema)
+
 			e.toPandas().to_csv("test.csv", index=False)
 
 			g = simple(GraphFrame(v,e))
