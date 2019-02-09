@@ -48,7 +48,7 @@ def readFile(filename, large, sc, sqlContext):
 	# YOUR CODE HERE
 	df = pd.DataFrame(lines.map(lambda line: (line.split(delim)[0], line.split(delim)[1], '')).collect())
 	df.columns = ["src", "dst", "rel_type"]
-	
+
 	print(tabulate(df, headers=df.columns.values.tolist(), showindex=False, tablefmt='psql'))
 
 	# Extract all endpoints from input file (hence flatmap) and create
