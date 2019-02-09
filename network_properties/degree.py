@@ -19,7 +19,7 @@ def simple(g, sc, sqlContext):
 	# A multigraph with loops will be closured to a simple graph
 	# If we try to undirect an undirected graph, no harm done
 	# YOUR CODE HERE
-	combined = flipped.union(g.edges.rdd)
+	combined = flipped.union(g.edges.rdd).distinct()
 	flipped_df = sqlContext.createDataFrame(combined, eschema)
 
 	print(flipped_df.collect())
