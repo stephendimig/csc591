@@ -68,7 +68,7 @@ def readFile(filename, large, sc, sqlContext):
 	# graphframe vertices
 	# YOUR CODE HERE
 	v  = lines.filter(lambda line: re.split(delim, line)[0].isdigit() and re.split(delim, line)[1].isdigit()).\
-		flatMap(lambda line: re.split(delim, line)(delim)).\
+		flatMap(lambda line: re.split(delim, line)).\
 		map(lambda x: int(x)).\
 		distinct().\
 		map(lambda x: (x, ))
