@@ -55,7 +55,7 @@ def readFile(filename, large, sc, sqlContext):
 	# Extract pairs from input file and convert to data frame matching
 	# schema for graphframe edges.
 	# YOUR CODE HERE
-	lines.map(lambda line: (line.split(delim)[0], line.split(delim)[1])).show()
+	lines.map(lambda line: (line.split(delim)[0], line.split(delim)[1])).collect()
 	print lines.filter(lambda line: line.split(delim)[0].isdigit() and line.split(delim)[1].isdigit()).collect()
 
 	e = lines.filter(lambda line: line.split(delim)[0].isdigit() and line.split(delim)[1].isdigit()).\
