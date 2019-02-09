@@ -12,7 +12,7 @@ def simple(g, sc):
 	# Extract edges and make a data frame of "flipped" edges
 	# YOUR CODE HERE
 	eschema = StructType([StructField("src", IntegerType()), StructField("dst", IntegerType())])
-	flipped = sc.parallelize(g.edges).map(lambda x: (x[1], x[0]))
+	flipped = g.edges.map(lambda x: (x[1], x[0]))
 	flipped_df = sqlContext.createDataFrame(flipped, eschema)
 
 	# Combine old and new edges. Distinctify to eliminate multi-edges
