@@ -36,8 +36,9 @@ class degreeTest(unittest.TestCase):
         filename = "test.csv"
         sc = SparkContext("local", "degreeTest.py")
         sqlContext = SQLContext(sc)
-
-        deg.readFile(filename, False, sc, sqlContext)
+        g = deg.readFile(filename, False, sc, sqlContext)
+        self.assertEqual(len(g.edges()), 1000)
+        self.assertEqual(len(g.nodes()), 1000)
 
 
 
