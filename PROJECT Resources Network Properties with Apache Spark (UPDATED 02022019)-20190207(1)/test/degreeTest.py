@@ -7,7 +7,8 @@
 import unittest
 import degree as deg
 from mock import MagicMock
-
+from pyspark import SparkContext
+from pyspark.sql import SQLContext
 #
 # Class:
 # Description:
