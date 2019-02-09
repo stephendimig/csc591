@@ -41,6 +41,7 @@ def readFile(filename, large, sc, sqlContext):
 	else:
 		delim=","
 
+	print(lines.collect())
 	# Extract pairs from input file and convert to data frame matching
 	# schema for graphframe edges.
 	# YOUR CODE HERE
