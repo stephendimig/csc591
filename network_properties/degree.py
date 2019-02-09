@@ -111,12 +111,8 @@ if __name__ == '__main__':
 		todo = {"gnp1": gnp1, "gnp2": gnp2, "gnm1": gnm1, "gnm2": gnm2}
 		for gx in todo:
 			print("Processing graph " + gx)
-			print(todo[gx].nodes())
-			print(todo[gx].edges())
 			v = sqlContext.createDataFrame(sc.parallelize(todo[gx].nodes()), vschema)
 			e = sqlContext.createDataFrame(sc.parallelize(todo[gx].edges()), eschema)
-			e.toPandas().to_csv("test.csv", index=False)
-
 			g = simple(GraphFrame(v,e))
 			distrib = degreedist(g)
 			print("Writing distribution to file " + gx + ".csv")
