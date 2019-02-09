@@ -63,7 +63,7 @@ def readFile(filename, large, sc, sqlContext):
 	vdf = sqlContext.createDataFrame(v, vschema)
 
 	# Create graphframe g from the vertices and edges.
-	g = simple(GraphFrame(v, e))
+	g = GraphFrame(v, e)
 	return g
 
 
