@@ -8,7 +8,7 @@ from graphframes import *
 from tabulate import tabulate
 
 # return the simple closure of the graph as a graphframe.
-def simple(g):
+def simple(g, sc):
 	# Extract edges and make a data frame of "flipped" edges
 	# YOUR CODE HERE
 	eschema = StructType([StructField("src", IntegerType()), StructField("dst", IntegerType())])

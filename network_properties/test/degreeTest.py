@@ -48,7 +48,7 @@ class degreeTest(unittest.TestCase):
         filename = "test.csv"
         g = deg.readFile(filename, False, degreeTest.sc, degreeTest.sqlContext)
         self.assertEquals(g.edges.count(), 1000)
-        simple_g = deg.simple(g)
+        simple_g = deg.simple(g, sc)
 
 if __name__ == '__main__':
     unittest.main()
