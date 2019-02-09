@@ -14,6 +14,8 @@ from pyspark.sql import SQLContext
 from pyspark.sql.types import *
 from graphframes import *
 from tabulate import tabulate
+import findspark
+
 #
 # Class:
 # Description:
@@ -30,6 +32,7 @@ class degreeTest(unittest.TestCase):
     # None
     #
     def test_readFile(self):
+        findspark.init()
         filename = "9_11_edgelist.txt"
         sc = SparkContext("local", "degree.py")
         sqlContext = SQLContext(sc)
