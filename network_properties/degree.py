@@ -48,7 +48,7 @@ def readFile(filename, large, sc, sqlContext):
 	# schema for graphframe edges.
 	# YOUR CODE HERE
 
-	e = lines.filter(lambda x: x.isdigit()).lines.map(lambda line: (int(line.split(delim)[0]), int(line.split(delim)[1])))
+	e = lines.filter(lambda x: x.isdigit()).map(lambda line: (int(line.split(delim)[0]), int(line.split(delim)[1])))
 	edf = sqlContext.createDataFrame(e, eschema)
 	edf.show()
 
