@@ -47,14 +47,14 @@ def readFile(filename, large, sc, sqlContext):
 	# Extract pairs from input file and convert to data frame matching
 	# schema for graphframe edges.
 	# YOUR CODE HERE
-	edf = sqlContext.createDataFrame(lines.map(lambda line: (line.split(delim)[0], line.split(delim)[1]), eschema))
+	edf = sqlContext.createDataFrame(lines.map(lambda line: (line.split(delim)[0], line.split(delim)[1])), eschema)
 	edf.show()
 
 	# Extract all endpoints from input file (hence flatmap) and create
 	# data frame containing all those node names in schema matching
 	# graphframe vertices
 	# YOUR CODE HERE
-	vdf = sqlContext.createDataFrame(lines.flatmap(lambda line: line.split(delim), vschema))
+	vdf = sqlContext.createDataFrame(lines.flatMap(lambda line: line.split(delim)).unique(), vschema)
 	vdf.show()
 
 	# Create graphframe g from the vertices and edges.
