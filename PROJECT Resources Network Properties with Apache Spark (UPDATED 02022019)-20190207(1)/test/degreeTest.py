@@ -62,10 +62,10 @@ class degreeTest(PySparkTest):
     #
     def test_readFile(self):
         filename = "9_11_edgelist.txt"
-        sc = self.spark.sparkContext
-        sqlContext = SQLContext(sc)
+        sc = PySparkTest.create_testing_pyspark_session()
+        sqlContext = None
 
-        deg.readFile(filename, False, sc, sqlContext=sqlContext)
+        deg.readFile(filename, False, sc, None)
 
 
 
