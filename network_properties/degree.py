@@ -129,6 +129,5 @@ if __name__ == '__main__':
 
 			print [row['count'] for row in distrib.collect()]
 			fit = plfit([row['count'] for row in distrib.collect()])
-			p = fit.test_pl()
-			print("p={}".format(p))
+			print fit.test_pl()
 
