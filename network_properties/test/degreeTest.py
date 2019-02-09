@@ -51,7 +51,6 @@ class degreeTest(unittest.TestCase):
         simple_g = deg.simple(g, degreeTest.sc, degreeTest.sqlContext)
         self.assertEquals(simple_g.edges.count(), 2000)
         dist = deg.degreedist(simple_g)
-        print(dist)
 
 if __name__ == '__main__':
     unittest.main()
