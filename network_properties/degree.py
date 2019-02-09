@@ -60,8 +60,7 @@ def readFile(filename, large, sc, sqlContext):
 		flatMap(lambda line: line.split(delim)).\
 		map(lambda x: int(x)).\
 		distinct()
-	print(v.collect())
-	vdf = sqlContext.createDataFrame(v.collect(), vschema)
+	vdf = sqlContext.createDataFrame(v, vschema)
 	vdf.show()
 
 	# Create graphframe g from the vertices and edges.
@@ -114,6 +113,7 @@ if __name__ == '__main__':
 		for gx in todo:
 			print("Processing graph " + gx)
 			print(todo[gx].nodes())
+			print(todo[gx].edges())
 			v = sqlContext.createDataFrame(sc.parallelize(todo[gx].nodes()), vschema)
 			e = sqlContext.createDataFrame(sc.parallelize(todo[gx].edges()), eschema)
 			e.toPandas().to_csv("test.csv", index=False)
