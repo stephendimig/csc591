@@ -30,7 +30,7 @@ def simple(g, sc, sqlContext):
 def degreedist(g):
 	# Generate a DF with degree,count
     # YOUR CODE HERE
-	pass
+	return g.degrees.groupBy(['degree']).count()
 
 
 # Read in an edgelist file with lines of the format id1<delim>id2
