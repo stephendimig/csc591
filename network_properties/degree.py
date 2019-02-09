@@ -22,6 +22,7 @@ def simple(g, sc, sqlContext):
 	combined = flipped.union(g.edges.rdd)
 	flipped_df = sqlContext.createDataFrame(combined, eschema)
 
+	print(flipped_df.collect())
 	simple_g = GraphFrame(g.vertices, flipped_df)
 	return simple_g
 
