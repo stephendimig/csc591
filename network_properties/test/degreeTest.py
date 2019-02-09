@@ -26,7 +26,7 @@ class degreeTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.sc = SparkContext("local", "degreeTest.py")
-        cls.sqlContext = SQLContext(sc)
+        cls.sqlContext = SQLContext(cls.sc)
 
     #
     # Name: test
