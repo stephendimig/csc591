@@ -31,7 +31,7 @@ def degreedist(g):
 # and return a corresponding graphframe. If "large" we assume
 # a header row and that delim = " ", otherwise no header and
 # delim = ","
-def readFile(filename, large, sc, sqlContext=None):
+def readFile(filename, large, sc, sqlContext):
 	lines = sc.textFile(filename)
 	g = None
 	if large:
@@ -76,7 +76,7 @@ if __name__ == '__main__':
 			large=False
 
 		print("Processing input file " + filename)
-		g = readFile(filename, large, sc, sqlContext=sqlContext)
+		g = readFile(filename, large, sc, sqlContext)
 
 		print("Original graph has " + str(g.edges.count()) + " directed edges and " + str(g.vertices.count()) + " vertices.")
 

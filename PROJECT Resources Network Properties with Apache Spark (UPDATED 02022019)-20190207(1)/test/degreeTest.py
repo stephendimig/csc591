@@ -25,15 +25,9 @@ class degreeTest(unittest.TestCase):
     #
     def test_readFile(self):
         filename = "9_11_edgelist.txt"
-        def textFile(filename):
-            with open(filename, 'r') as content_file:
-                content = content_file.read()
-            lines = content.split('\n')
-            return lines
+        sc = SparkContext("local", "degree.py")
+        sqlContext = SQLContext(sc)
 
-        sc = MagicMock()
-        sc.textFile.side_effect = textFile
-        sqlContext = MagicMock()
         deg.readFile(filename, False, sc, sqlContext=sqlContext)
 
 
