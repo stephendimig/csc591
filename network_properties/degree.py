@@ -129,3 +129,5 @@ if __name__ == '__main__':
 			fit = powerlaw.Fit([row['count'] for row in distrib.collect()])
 			print "alpha={}".format(fit.power_law.alpha)
 			print "sigma={}".format(fit.power_law.sigma)
+			print "in_range={}".format(fit.in_range())
+
