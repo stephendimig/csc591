@@ -65,9 +65,9 @@ def readFile(filename, large, sc, sqlContext):
 	# YOUR CODE HERE
 	v  = lines.filter(lambda line: line.split(delim)[0].isdigit() and line.split(delim)[1].isdigit()).\
 		flatMap(lambda line: line.split(delim)).\
-		map(lambda x: int(x)). \
-		filter(lambda line: line is not None).\
-		distinct()
+		map(lambda x: int(x)).\
+		distinct().\
+		map(lambda x: (x, ))
 	print v.collect()
 	vdf = sqlContext.createDataFrame(v, vschema)
 
