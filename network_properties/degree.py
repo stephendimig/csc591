@@ -12,14 +12,14 @@ def simple(g, sc, sqlContext):
 	# Extract edges and make a data frame of "flipped" edges
 	# YOUR CODE HERE
 	eschema = StructType([StructField("src", IntegerType()), StructField("dst", IntegerType())])
-	flipped = g.edges.rdd().map(lambda x: (x[1], x[0]))
+	flipped = g.edges.rdd.map(lambda x: (x[1], x[0]))
 
 	# Combine old and new edges. Distinctify to eliminate multi-edges
 	# Filter to eliminate self-loops.
 	# A multigraph with loops will be closured to a simple graph
 	# If we try to undirect an undirected graph, no harm done
 	# YOUR CODE HERE
-	combined = flipped.union(g.edges.rdd())
+	combined = flipped.union(g.edges.rdd)
 	flipped_df = sqlContext.createDataFrame(combined, eschema)
 
 	simple_g = GraphFrame(g.vertices, flipped_df)
