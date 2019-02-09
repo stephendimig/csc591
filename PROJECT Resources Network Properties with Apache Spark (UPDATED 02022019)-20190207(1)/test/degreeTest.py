@@ -14,13 +14,42 @@ from pyspark.sql import SQLContext
 from pyspark.sql.types import *
 from graphframes import *
 from tabulate import tabulate
-import findspark
+from pyspark.sql import SparkSession
+
+import unittest
+import logging
+from pyspark.sql import SparkSession
+
+
+class PySparkTest(unittest.TestCase):
+
+    @classmethod
+    def suppress_py4j_logging(cls):
+        logger = logging.getLogger('py4j')
+        logger.setLevel(logging.WARN)
+
+    @classmethod
+    def create_testing_pyspark_session(cls):
+        return (SparkSession.builder
+            .master('local[2]')
+            .appName('degreeTest.py')
+            .getOrCreate())
+
+        @classmethod
+        def setUpClass(cls):
+            cls.suppress_py4j_logging()
+
+        cls.spark = cls.create_testing_pyspark_session()
+
+        @classmethod
+        def tearDownClass(cls):
+            cls.spark.stop()
 
 #
 # Class:
 # Description:
 #
-class degreeTest(unittest.TestCase):
+class degreeTest(PySparkTest):
     #
     # Name: test
     # Description:
@@ -32,9 +61,8 @@ class degreeTest(unittest.TestCase):
     # None
     #
     def test_readFile(self):
-        findspark.init()
         filename = "9_11_edgelist.txt"
-        sc = SparkContext("local")
+        sc = self.spark.sparkContext
         sqlContext = SQLContext(sc)
 
         deg.readFile(filename, False, sc, sqlContext=sqlContext)
