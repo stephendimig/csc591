@@ -58,11 +58,8 @@ def readFile(filename, large, sc, sqlContext):
 	# Extract pairs from input file and convert to data frame matching
 	# schema for graphframe edges.
 	# YOUR CODE HERE
-	print lines.map(lambda line: (re.split(delim, line)[0], re.split(delim, line)[1])).collect()
-	print lines.filter(lambda line: line.split(delim)[0].isdigit() and line.split(delim)[1].isdigit()).collect()
-
-	e = lines.filter(lambda line: line.split(delim)[0].isdigit() and line.split(delim)[1].isdigit()).\
-		map(lambda line: (int(line.split(delim)[0]), int(line.split(delim)[1])))
+	e = lines.filter(lambda line: re.split(delim, line)[0].isdigit() and re.split(delim, line)[1].isdigit()).\
+		map(lambda line: (int(re.split(delim, line)[0]), int(re.split(delim, line)[1])))
 
 	edf = sqlContext.createDataFrame(e, eschema)
 
@@ -70,8 +67,8 @@ def readFile(filename, large, sc, sqlContext):
 	# data frame containing all those node names in schema matching
 	# graphframe vertices
 	# YOUR CODE HERE
-	v  = lines.filter(lambda line: line.split(delim)[0].isdigit() and line.split(delim)[1].isdigit()).\
-		flatMap(lambda line: line.split(delim)).\
+	v  = lines.filter(lambda line: re.split(delim, line)[0].isdigit() and re.split(delim, line)[1].isdigit()).\
+		flatMap(lambda line: re.split(delim, line)(delim)).\
 		map(lambda x: int(x)).\
 		distinct().\
 		map(lambda x: (x, ))
