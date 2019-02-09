@@ -111,7 +111,7 @@ if __name__ == '__main__':
 			v = sqlContext.createDataFrame(sc.parallelize(todo[gx].nodes()), vschema)
 			e = sqlContext.createDataFrame(sc.parallelize(todo[gx].edges()), eschema)
 
-			e.toPandas().to_csv("test.csv")
+			e.toPandas().to_csv("test.csv", index=False)
 
 			g = simple(GraphFrame(v,e))
 			distrib = degreedist(g)
