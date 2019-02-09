@@ -106,6 +106,8 @@ if __name__ == '__main__':
 		print("Writing distribution to file " + out + ".csv")
 		distrib.toPandas().to_csv(out + ".csv")
 
+		fit = plfit([row['count'] for row in distrib.collect()])
+		print fit.test_pl()
 	# Otherwise, generate some random graphs.
 	else:
 		print("Generating random graphs.")
