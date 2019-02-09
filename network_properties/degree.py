@@ -7,6 +7,7 @@ from pyspark.sql.types import *
 from graphframes import *
 from tabulate import tabulate
 from plfit import plfit
+from itertools import islice
 
 # return the simple closure of the graph as a graphframe.
 def simple(g, sc, sqlContext):
@@ -48,7 +49,8 @@ def readFile(filename, large, sc, sqlContext):
 	if large:
 		delim=" "
 		# Strip off header row.
-		lines = lines.mapPartitionsWithIndex(lambda ind,it: iter(list(it)[1:]) if ind==0 else it)
+		lines = lines.mapPartitionsWithIndex(lambda idx, it: islice(it, 1, None) if idx == 0 else it)
+		#lines = lines.mapPartitionsWithIndex(lambda ind,it: iter(list(it)[1:]) if ind==0 else it)
 	else:
 		delim=","
 
