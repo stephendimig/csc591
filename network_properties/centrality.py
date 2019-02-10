@@ -25,7 +25,7 @@ def closeness(g, sc, sqlContext):
 	return df
 
 if __name__ == '__main__':
-	sc = SparkContext("local", "degree.py")
+	sc = SparkContext("local", "centrality.py")
 	sqlContext = SQLContext(sc)
 
 	print("Reading in graph for problem 2.")
