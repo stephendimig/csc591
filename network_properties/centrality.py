@@ -13,14 +13,15 @@ def closeness(g, sc, sqlContext):
 	# first get all the path lengths.
 	path_lengths = g.shortestPaths(landmarks=vertices)
 
-	# Break up the map and group by ID for summing
-	print path_lengths.rdd.map(lambda row: (row['id'], row['distances'])).\
-		map(lambda row: (row[0], sum(row[1].values()))).collect()
+	# Break up the map and group by ID for summing, Sum by ID, Get the inverses
+	inverses = path_lengths.rdd.map(lambda row: (row['id'], row['distances'])).\
+		map(lambda row: (row[0], float(1.0/float(sum(row[1].values()))) if sum(row[1].values()) > 0 else 0.0))
 
+	# Generate desired dataframe.
+	schema = StructType([StructField("id", StringType()), StructField("closeness", FloatType())])
+	df = sqlContext.createDataFrame(inverses, schema)
 
-	# Sum by ID
-
-	# Get the inverses and generate desired dataframe.
+	return df
 
 if __name__ == '__main__':
 	sc = SparkContext("local", "degree.py")
