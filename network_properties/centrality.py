@@ -14,7 +14,7 @@ def closeness(g, sc, sqlContext):
 	path_lengths = g.shortestPaths(landmarks=vertices)
 
 	# Break up the map and group by ID for summing
-	path_lengths.rdd.map(lambda row: (row['id'], row['distances'])).show()
+	print path_lengths.rdd.map(lambda row: (row['id'], row['distances'])).collect()
 
 	# Sum by ID
 
