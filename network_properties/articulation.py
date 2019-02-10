@@ -12,8 +12,8 @@ def articulations(g, sc, sqlContext, usegraphframe=False):
 	# Get the starting count of connected components
 	# YOUR CODE HERE
 	result = g.connectedComponents()
-	number_connected = result.groupby(result.component).count().distinct().count().collect()
-	print "number_connected=".format(number_connected)
+	number_connected = result.groupby(result.component).count().distinct().count()
+	print "number_connected={}".format(number_connected)
 
 	# Default version sparkifies the connected components process 
 	# and serializes node iteration.
