@@ -22,15 +22,19 @@ def articulations(g, sc, sqlContext, usegraphframe=False):
 		# YOUR CODE HERE
 		vertices = [row['id'] for row in g.vertices.collect()]
 
+		print "vertices={}".format(str(vertices))
+
 		# For each vertex, generate a new graphframe missing that vertex
 		# and calculate connected component count. Then append count to
 		# the output
 		# YOUR CODE HERE
 		for vertex in vertices:
 			new_vertices = vertices.remove(vertex)
+			print "new_vertices={}".format(str(new_vertices))
 			new_edges = g.edges.filter(lambda edge: edge['src'] in new_vertices and edge['dst'] in new_vertices).\
 				map(lambda edge: (edge['src'], edge['dst'])).\
 				collect()
+			print "edges={}".format(str(edges))
 			e = sqlContext.createDataFrame(new_edges, ['src', 'dst'])
 
 			# Extract all endpoints from input file and make a single column frame.
