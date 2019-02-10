@@ -10,6 +10,8 @@ def closeness(g, sc, sqlContext):
 	# YOUR CODE HERE
 	vertices = g.vertices
 
+	vertices.show()
+	
 	# first get all the path lengths.
 
 
