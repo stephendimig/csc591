@@ -8,7 +8,7 @@ def closeness(g, sc, sqlContext):
 	# Get list of vertices. We'll generate all the shortest paths at
 	# once using this list.
 	# YOUR CODE HERE
-	vertices = g.vertices.collect()
+	vertices = [row['id'] for row in g.vertices.collect()]
 	print(vertices)
 
 	#vertices.map(lambda vertex: g.shortestPaths(landmarks=["a", "d"])

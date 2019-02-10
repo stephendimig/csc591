@@ -130,7 +130,6 @@ if __name__ == '__main__':
 			print("Writing distribution to file " + gx + ".csv")
 			distrib.toPandas().to_csv(gx + ".csv")
 
-			print [row['count'] for row in distrib.collect()]
 			fit = plfit([row['count'] for row in distrib.collect()])
 			print fit.test_pl()
 
