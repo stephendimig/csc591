@@ -3,6 +3,7 @@ from pyspark.sql import SQLContext
 from pyspark.sql import functions
 from graphframes import *
 from pyspark.sql.functions import explode
+from pyspark.sql.types import *
 
 def closeness(g, sc, sqlContext):
 	# Get list of vertices. We'll generate all the shortest paths at
