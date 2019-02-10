@@ -29,7 +29,8 @@ def articulations(g, sc, sqlContext, usegraphframe=False):
 		# the output
 		# YOUR CODE HERE
 		for vertex in vertices:
-			new_vertices = vertices.remove(vertex)
+			print "vertex={}".format(vertex)
+			new_vertices = [v for v in vertices if v != vertex]
 			print "new_vertices={}".format(str(new_vertices))
 			new_edges = g.edges.filter(lambda edge: edge['src'] in new_vertices and edge['dst'] in new_vertices).\
 				map(lambda edge: (edge['src'], edge['dst'])).\
