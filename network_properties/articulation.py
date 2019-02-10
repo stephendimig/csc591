@@ -11,7 +11,8 @@ from copy import deepcopy
 def articulations(g, sc, sqlContext, usegraphframe=False):
 	# Get the starting count of connected components
 	# YOUR CODE HERE
-	result = g.connectedComponents().show()
+	result = g.connectedComponents()
+	result.groupby(result.component).count().distinct().show()
 
 	# Default version sparkifies the connected components process 
 	# and serializes node iteration.
