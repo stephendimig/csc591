@@ -9,9 +9,9 @@ def closeness(g, sc, sqlContext):
 	# once using this list.
 	# YOUR CODE HERE
 	vertices = [row['id'] for row in g.vertices.collect()]
-	print(vertices)
 
-	#vertices.map(lambda vertex: g.shortestPaths(landmarks=["a", "d"])
+	g.shortestPaths(landmarks=vertices).show()
+
 	# first get all the path lengths.
 
 
