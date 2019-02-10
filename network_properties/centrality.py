@@ -39,6 +39,6 @@ if __name__ == '__main__':
 	v = e.selectExpr('src as id').unionAll(e.selectExpr('dst as id')).distinct()
 	print("Generating GraphFrame.")
 	g = GraphFrame(v,e)
-	
+
 	print("Calculating closeness.")
 	closeness(g).sort('closeness',ascending=False).show()
