@@ -41,4 +41,4 @@ if __name__ == '__main__':
 	g = GraphFrame(v,e)
 
 	print("Calculating closeness.")
-	closeness(g).sort('closeness',ascending=False).show()
+	closeness(g, sc, sqlContext).sort('closeness',ascending=False).show()
