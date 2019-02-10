@@ -11,7 +11,7 @@ from copy import deepcopy
 def articulations(g, sc, sqlContext, usegraphframe=False):
 	# Get the starting count of connected components
 	# YOUR CODE HERE
-
+	result = g.connectedComponents().show()
 
 	# Default version sparkifies the connected components process 
 	# and serializes node iteration.
@@ -65,16 +65,16 @@ if __name__ == '__main__':
 	print("---------------------------")
 	print("Processing graph using Spark iteration over nodes and serial (networkx) connectedness calculations")
 	init = time.time()
-	df = articulations(g, False)
+	#df = articulations(g, sc, sqlContext, False)
 	print("Execution time: %s seconds" % (time.time() - init))
 	print("Articulation points:")
-	df.filter('articulation = 1').show(truncate=False)
+	#df.filter('articulation = 1').show(truncate=False)
 	print("---------------------------")
 
 	#Runtime for below is more than 2 hours
 	print("Processing graph using serial iteration over nodes and GraphFrame connectedness calculations")
 	init = time.time()
-	df = articulations(g, True)
+	df = articulations(g, sc, sqlContext, True)
 	print("Execution time: %s seconds" % (time.time() - init))
 	print("Articulation points:")
 	df.filter('articulation = 1').show(truncate=False)
