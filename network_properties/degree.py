@@ -32,7 +32,7 @@ def simple(g, sc, sqlContext):
 def degreedist(g):
 	# Generate a DF with degree,count
     # YOUR CODE HERE
-	retval = g.degrees.groupBy(['degree']).count()
+	retval = g.outDegrees.groupBy(['degree']).count()
 	return retval
 
 
@@ -47,11 +47,8 @@ def readFile(filename, large, sc, sqlContext):
 	lines = sc.textFile(filename)
 	g = None
 	if large:
-		delim=" "
 		# Strip off header row.
 		lines = lines.mapPartitionsWithIndex(lambda ind,it: iter(list(it)[1:]) if ind==0 else it)
-	else:
-		delim=","
 
 	delim = r'[\s+]|[,]'
 
