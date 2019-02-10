@@ -21,7 +21,7 @@ def closeness(g, sc, sqlContext):
 	# Generate desired dataframe.
 	schema = StructType([StructField("id", StringType()), StructField("closeness", FloatType())])
 	df = sqlContext.createDataFrame(inverses, schema)
-
+	df.orderBy(['closeness'], ascending=False)
 	return df
 
 if __name__ == '__main__':
