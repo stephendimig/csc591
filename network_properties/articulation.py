@@ -32,10 +32,10 @@ def articulations(g, sc, sqlContext, usegraphframe=False):
 			print "vertex={}".format(vertex)
 			new_vertices = [v for v in vertices if v != vertex]
 			print "new_vertices={}".format(str(new_vertices))
-			print g.edges.map(lambda edge: edge['src']).collect()
+			print g.edges.map(lambda edge: (edge['src'], edge['dst'])).collect()
 
-			new_edges = g.edges.filter(lambda edge: edge['src'] in new_vertices and edge['dst'] in new_vertices).\
-				map(lambda edge: (edge['src'], edge['dst'])).\
+			new_edges = g.edges.map(lambda edge: (edge['src'], edge['dst'])).\
+				filter(lambda edge: edge[0] in new_vertices and edge[1] in new_vertices).\
 				collect()
 			print "edges={}".format(str(edges))
 			e = sqlContext.createDataFrame(new_edges, ['src', 'dst'])
