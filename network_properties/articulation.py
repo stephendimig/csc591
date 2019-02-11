@@ -41,6 +41,7 @@ def articulations(g, sc, sqlContext, usegraphframe=False):
 			new_g = GraphFrame(v, e)
 			new_number_connected = result.groupby(result.component).count().distinct().count()
 			row = (vertex, 1 if new_number_connected > number_connected else 0)
+			print row
 			rows.append(row)
 
 		schema = StructType([StructField("id", StringType()), StructField("articulation", IntegerType())])
