@@ -6,7 +6,7 @@ from pyspark.sql import SQLContext
 from pyspark.sql import functions
 from graphframes import *
 from copy import deepcopy
-
+from pyspark.sql.types import *
 
 def articulations(g, sc, sqlContext, usegraphframe=False):
 	# Get the starting count of connected components
@@ -28,6 +28,7 @@ def articulations(g, sc, sqlContext, usegraphframe=False):
 		# and calculate connected component count. Then append count to
 		# the output
 		# YOUR CODE HERE
+		rows = []
 		for vertex in vertices:
 			print "vertex={}".format(vertex)
 			new_vertices = [v for v in vertices if v != vertex]
@@ -45,9 +46,13 @@ def articulations(g, sc, sqlContext, usegraphframe=False):
 
 			# Create graphframe from the vertices and edges.
 			new_g = GraphFrame(v, e)
-			result = new_g.connectedComponents().show()
+			new_number_connected = result.groupby(result.component).count().distinct().count()
+			rows.append((vertex, 1 if new_number_connected > number_connected else 0))
 
-		
+		schema = StructType([StructField("id", StringType()), StructField("articulation", IntegerType())])
+		df = sqlContext.createDataFrame(rows, schema)
+		return df
+
 	# Non-default version sparkifies node iteration and uses networkx 
 	# for connected components count.
 	else:
