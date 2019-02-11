@@ -39,6 +39,7 @@ def articulations(g, sc, sqlContext, usegraphframe=False):
 
 			# Create graphframe from the vertices and edges.
 			new_g = GraphFrame(v, e)
+			result = new_g.connectedComponents()
 			new_number_connected = result.groupby(result.component).count().distinct().count()
 			row = (vertex, 1 if new_number_connected > number_connected else 0)
 			rows.append(row)
