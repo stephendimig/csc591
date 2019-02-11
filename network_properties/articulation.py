@@ -43,7 +43,6 @@ def articulations(g, sc, sqlContext, usegraphframe=False):
 			row = (vertex, 1 if new_number_connected > number_connected else 0)
 			rows.append(row)
 
-		print rows
 		schema = StructType([StructField("id", StringType()), StructField("articulation", IntegerType())])
 		df = sqlContext.createDataFrame(rows, schema)
 		return df
