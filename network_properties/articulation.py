@@ -37,7 +37,7 @@ def articulations(g, sc, sqlContext, usegraphframe=False):
 			new_edges = g.edges.map(lambda edge: (edge['src'], edge['dst'])).\
 				filter(lambda edge: edge[0] in new_vertices and edge[1] in new_vertices).\
 				collect()
-			print "edges={}".format(str(edges))
+			print "new_edges={}".format(str(new_edges))
 			e = sqlContext.createDataFrame(new_edges, ['src', 'dst'])
 
 			# Extract all endpoints from input file and make a single column frame.
