@@ -41,10 +41,10 @@ def articulations(g, sc, sqlContext, usegraphframe=False):
 			new_g = GraphFrame(v, e)
 			result = new_g.connectedComponents()
 			new_number_connected = result.groupby(result.component).count().distinct().count()
-			row = (vertex, 1 if new_number_connected > number_connected else 0)
+			row = (vertex, 1 if new_number_connected > number_connected else 0, new_number_connected - number_connected)
 			rows.append(row)
 
-		schema = StructType([StructField("id", StringType()), StructField("articulation", IntegerType())])
+		schema = StructType([StructField("id", StringType()), StructField("articulation", IntegerType()), StructField("diff", IntegerType())])
 		df = sqlContext.createDataFrame(rows, schema)
 		return df
 
@@ -86,4 +86,4 @@ if __name__ == '__main__':
 	df = articulations(g, sc, sqlContext, True)
 	print("Execution time: %s seconds" % (time.time() - init))
 	print("Articulation points:")
-	df.filter('articulation = 1').show(truncate=False)
+	df.filter('articulation = 1').orderBy(['diff'], ascending=False).show(truncate=False)
