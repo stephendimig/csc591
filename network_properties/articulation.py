@@ -11,13 +11,14 @@ from pyspark.sql.types import *
 def articulations(g, sc, sqlContext, usegraphframe=False):
 	# Get the starting count of connected components
 	# YOUR CODE HERE
-	result = g.connectedComponents()
-	number_connected = result.groupby(result.component).count().distinct().count()
-	print "number_connected={}".format(number_connected)
 
 	# Default version sparkifies the connected components process 
 	# and serializes node iteration.
 	if usegraphframe:
+		result = g.connectedComponents()
+		number_connected = result.groupby(result.component).count().distinct().count()
+		print "number_connected={}".format(number_connected)
+
 		# Get vertex list for serial iteration
 		# YOUR CODE HERE
 		vertices = [row['id'] for row in g.vertices.collect()]
@@ -54,7 +55,31 @@ def articulations(g, sc, sqlContext, usegraphframe=False):
 	# for connected components count.
 	else:
 		# YOUR CODE HERE
-		pass
+		G = nx.Graph()
+		edges = g.edges.map(lambda edge: (edge['src'], edge['dst']))
+		G.add_edges_from(edges.collect())
+		number_connected =  nx.number_connected_components(G)
+		print "number_connected={}".format(number_connected)
+
+		rows = []
+		vertices = [row['id'] for row in g.vertices.collect()]
+		for counter, vertex in enumerate(vertices):
+			print("Processing {} of {}".format(counter, len(vertices)))
+			new_edges = edges.map(lambda edge: (edge['src'], edge['dst'])). \
+				filter(lambda edge: edge[0] != vertex and edge[1] != vertex)
+
+			# Create graphframe from the vertices and edges.
+			new_g = nx.Graph()
+			new_g.add_edges_from(new_edges.collect())
+
+			result = nx.number_connected_components(new_g)
+			print "new_number_connected={}".format(new_number_connected)
+			row = (vertex, 1 if new_number_connected > number_connected else 0, new_number_connected - number_connected)
+			print row
+			rows.append(row)
+		schema = StructType([StructField("id", StringType()), StructField("articulation", IntegerType()),
+							 StructField("diff", IntegerType())])
+		df = sqlContext.createDataFrame(rows, schema)
 
 if __name__ == '__main__':
 	sc = SparkContext("local", "articulation.py")
@@ -76,16 +101,16 @@ if __name__ == '__main__':
 	print("---------------------------")
 	print("Processing graph using Spark iteration over nodes and serial (networkx) connectedness calculations")
 	init = time.time()
-	#df = articulations(g, sc, sqlContext, False)
+	df = articulations(g, sc, sqlContext, False)
 	print("Execution time: %s seconds" % (time.time() - init))
 	print("Articulation points:")
-	#df.filter('articulation = 1').show(truncate=False)
+	#\df.filter('articulation = 1').show(truncate=False)
 	print("---------------------------")
 
 	#Runtime for below is more than 2 hours
 	print("Processing graph using serial iteration over nodes and GraphFrame connectedness calculations")
 	init = time.time()
-	df = articulations(g, sc, sqlContext, True)
+	#df = articulations(g, sc, sqlContext, True)
 	print("Execution time: %s seconds" % (time.time() - init))
 	print("Articulation points:")
-	df.filter('articulation = 1').orderBy(['diff'], ascending=False).show(truncate=False)
+	#df.filter('articulation = 1').orderBy(['diff'], ascending=False).show(truncate=False)
