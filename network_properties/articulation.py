@@ -61,11 +61,14 @@ def articulations(g, sc, sqlContext, usegraphframe=False):
 		number_connected =  nx.number_connected_components(G)
 		print "number_connected={}".format(number_connected)
 
+
+		print "number_edges={}".format(edges.count())
 		rows = []
 		vertices = [row['id'] for row in g.vertices.collect()]
 		for counter, vertex in enumerate(vertices):
 			print("Processing {} of {}".format(counter, len(vertices)))
 			new_edges = edges.filter(lambda edge: edge[0] != vertex and edge[1] != vertex)
+			print "number_edges={}".format(new_edges.count())
 
 			# Create graphframe from the vertices and edges.
 			new_g = nx.Graph()
