@@ -41,7 +41,9 @@ def articulations(g, sc, sqlContext, usegraphframe=False):
 			new_g = GraphFrame(v, e)
 			result = new_g.connectedComponents()
 			new_number_connected = result.groupby(result.component).count().distinct().count()
+			print "new_number_connected={}".format(new_number_connected)
 			row = (vertex, 1 if new_number_connected > number_connected else 0, new_number_connected - number_connected)
+			print row
 			rows.append(row)
 
 		schema = StructType([StructField("id", StringType()), StructField("articulation", IntegerType()), StructField("diff", IntegerType())])
