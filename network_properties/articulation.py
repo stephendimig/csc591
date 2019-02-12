@@ -65,8 +65,7 @@ def articulations(g, sc, sqlContext, usegraphframe=False):
 		vertices = [row['id'] for row in g.vertices.collect()]
 		for counter, vertex in enumerate(vertices):
 			print("Processing {} of {}".format(counter, len(vertices)))
-			new_edges = edges.map(lambda edge: (edge['src'], edge['dst'])). \
-				filter(lambda edge: edge[0] != vertex and edge[1] != vertex)
+			new_edges = edges.filter(lambda edge: edge[0] != vertex and edge[1] != vertex)
 
 			# Create graphframe from the vertices and edges.
 			new_g = nx.Graph()
