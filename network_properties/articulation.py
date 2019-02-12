@@ -71,7 +71,7 @@ def articulations(g, sc, sqlContext, usegraphframe=False):
 			new_g = nx.Graph()
 			new_g.add_edges_from(new_edges.collect())
 
-			result = nx.number_connected_components(new_g)
+			new_number_connected = nx.number_connected_components(new_g)
 			print "new_number_connected={}".format(new_number_connected)
 			row = (vertex, 1 if new_number_connected > number_connected else 0, new_number_connected - number_connected)
 			print row
