@@ -62,23 +62,15 @@ def articulations(g, sc, sqlContext, usegraphframe=False):
 		number_connected =  nx.number_connected_components(G)
 		print "number_connected={}".format(number_connected)
 
-		print "number_edges={}".format(edges.count())
 		rows = []
 		vertices = [row['id'] for row in g.vertices.collect()]
 		for counter, vertex in enumerate(vertices):
 			print("Processing {} of {}".format(counter, len(vertices)))
-			new_edges = edges.map(lambda edge: (edge[0] if edge[0] != vertex else edge[1], edge[1] if edge[1] != vertex else edge[0])).\
-				filter(lambda edge: edge[0] != vertex and edge[1] != vertex)
-			print "number_edges={}".format(new_edges.count())
-
 			# Create graphframe from the vertices and edges.
 			new_g = nx.Graph()
-			new_g.add_edges_from(new_edges.collect())
-
+			new_g.add_edges_from(edges.map(lambda edge: (edge[0] if edge[0] != vertex else edge[1], edge[1] if edge[1] != vertex else edge[0])).collect())
 			new_number_connected = nx.number_connected_components(new_g)
-			print "new_number_connected={}".format(new_number_connected)
 			row = (vertex, 1 if new_number_connected > number_connected else 0, new_number_connected - number_connected)
-			print row
 			rows.append(row)
 		schema = StructType([StructField("id", StringType()), StructField("articulation", IntegerType()),
 							 StructField("diff", IntegerType())])
@@ -108,7 +100,7 @@ if __name__ == '__main__':
 	df = articulations(g, sc, sqlContext, False)
 	print("Execution time: %s seconds" % (time.time() - init))
 	print("Articulation points:")
-	#\df.filter('articulation = 1').show(truncate=False)
+	df.filter('articulation = 1').orderBy(['diff'], ascending=False).show(truncate=False)
 	print("---------------------------")
 
 	#Runtime for below is more than 2 hours
