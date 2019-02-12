@@ -30,7 +30,8 @@ def articulations(g, sc, sqlContext, usegraphframe=False):
 		rows = []
 		for counter, vertex in  enumerate(vertices):
 			print("Processing {} of {}".format(counter, len(vertices)))
-			new_edges = g.edges.map(lambda edge: (edge['src'], edge['dst'])).\
+			new_edges = g.edges.map(lambda edge: (edge['src'], edge['dst'])). \
+				map(lambda edge: (edge[0] if edge[0] != vertex else edge[1], edge[1] if edge[1] != vertex else edge[0])).\
 				filter(lambda edge: edge[0] != vertex and edge[1] != vertex).\
 				collect()
 			e = sqlContext.createDataFrame(new_edges, ['src', 'dst'])
@@ -82,6 +83,7 @@ def articulations(g, sc, sqlContext, usegraphframe=False):
 		schema = StructType([StructField("id", StringType()), StructField("articulation", IntegerType()),
 							 StructField("diff", IntegerType())])
 		df = sqlContext.createDataFrame(rows, schema)
+		return df
 
 if __name__ == '__main__':
 	sc = SparkContext("local", "articulation.py")
