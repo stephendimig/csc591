@@ -100,8 +100,9 @@ if __name__ == '__main__':
 	df = articulations(g, sc, sqlContext, False)
 	print("Execution time: %s seconds" % (time.time() - init))
 	print("Articulation points:")
-	df.filter('articulation = 1').orderBy(['diff'], ascending=False).show(truncate=False)
-	df.filter('articulation = 1').orderBy(['diff'], ascending=False).toPandas().to_csv("articulation.csv")
+	mydf = df.filter('articulation = 1').orderBy(['diff'], ascending=False)
+	mydf.show(truncate=False)
+	mydf.toPandas().to_csv("articulation.csv")
 	print("---------------------------")
 
 	#Runtime for below is more than 2 hours

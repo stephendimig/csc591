@@ -46,4 +46,6 @@ if __name__ == '__main__':
 	g = GraphFrame(v,e)
 
 	print("Calculating closeness.")
-	closeness(g, sc, sqlContext).sort('closeness',ascending=False).show()
+	mydf = closeness(g, sc, sqlContext).sort('closeness',ascending=False)
+	mydf.show()
+	mydf.toPandas().to_csv("closeness.csv")
