@@ -48,4 +48,4 @@ if __name__ == '__main__':
 	print("Calculating closeness.")
 	mydf = closeness(g, sc, sqlContext).sort('closeness',ascending=False)
 	mydf.show()
-	mydf.toPandas().to_csv("closeness.csv")
+	mydf.toPandas().to_csv("centrality.csv")
