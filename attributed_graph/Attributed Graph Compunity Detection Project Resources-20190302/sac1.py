@@ -277,6 +277,7 @@ if __name__ == '__main__':
     vertices = sorted(g1.vertices.values(), key=lambda x: int(x.label))
     for i in range(0, len(vertices)):
         target = vertices[i]
+        orig_community = communities.find_community(target)
         communities.remove_vertex(target)
         max_qattr = -sys.maxint - 1
         max_community = None
@@ -287,8 +288,10 @@ if __name__ == '__main__':
             if qattr > max_qattr:
                 max_qattr = qattr
                 max_community = community
-        if max_community:
+        if max_community and max_qattr > 0.005:
             communities.add_vertex(target, max_community)
+        else:
+            orig_community.__add_vertex__(target)
 
     # Phase Two
     for k in range(0, MAX_ITERATIONS):
@@ -305,11 +308,11 @@ if __name__ == '__main__':
                     continue
 
                 qattr = community_a.similarity_measure_comm(community_b, attr_df, alpha)  - community_a.similarity_measure_comm(None, attr_df, alpha)
-                if qattr > max_qattr and qattr > 0.005:
+                if qattr > max_qattr:
                     max_qattr = qattr
                     max_community = community_b
 
-            if max_community:
+            if max_community and max_qattr > 0.005:
                 num_merged += 1
                 max_community.merge(community_a)
                 community_a.empty()
